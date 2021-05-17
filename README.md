@@ -1,2 +1,2 @@
 # Monkey
-Following along in the "Writing an Interpreter in Go" book by Thorsten Ball.
+Following along in the [_Writing An Interpreter In Go_](https://interpreterbook.com/) book by Thorsten Ball.
