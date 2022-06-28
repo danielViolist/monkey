@@ -20,6 +20,19 @@ type Expression interface {
 	expressionNode()
 }
 
+type PrefixExpression struct {
+	Token    token.Token // The prefix token, - or !
+	Operator string
+	Right    Expression
+}
+
+type InfixExpression struct {
+	Token    token.Token
+	Left     Expression
+	Operator string
+	Right    Expression
+}
+
 type Program struct {
 	Statements []Statement
 }
@@ -144,4 +157,35 @@ func (il *IntegerLiteral) TokenLiteral() string {
 
 func (il *IntegerLiteral) String() string {
 	return il.Token.Literal
+}
+
+func (pe *PrefixExpression) expressionNode() {}
+
+func (pe *PrefixExpression) TokenLiteral() string {
+	return pe.Token.Literal
+}
+
+func (pe *PrefixExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(pe.Operator)
+	out.WriteString(pe.Right.String())
+	out.WriteString(")")
+	return out.String()
+}
+
+func (ie *InfixExpression) expressionNode() {}
+
+func (ie *InfixExpression) TokenLiteral() string {
+	return ie.Token.Literal
+}
+
+func (ie *InfixExpression) String() string {
+	var out bytes.Buffer
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString(" " + ie.Operator + " ")
+	out.WriteString(ie.Right.String())
+	out.WriteString(")")
+	return out.String()
 }
