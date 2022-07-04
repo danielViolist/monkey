@@ -237,14 +237,14 @@ func TestErrorHandling(t *testing.T) {
 		},
 		{
 			`
-if (10 > 1) {
-  if (10 > 1) {
-    return true + false;
-  }
-
-  return 1;
-}
-`,
+		if (10 > 1) {
+		 if (10 > 1) {
+		   return true + false;
+		 }
+		
+		 return 1;
+		}
+		`,
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{
@@ -253,19 +253,17 @@ if (10 > 1) {
 		},
 	}
 
-	for _, tt := range tests {
+	for i, tt := range tests {
 		evaluated := testEval(tt.input)
 
 		errObj, ok := evaluated.(*object.Error)
 		if !ok {
-			t.Errorf("no error object returned. got=%T(%+v)",
-				evaluated, evaluated)
+			t.Errorf("%d\tno error object returned. got=%T(%+v)", i, evaluated, evaluated)
 			continue
 		}
 
 		if errObj.Message != tt.expectedMessage {
-			t.Errorf("wrong error message. expected=%q, got=%q",
-				tt.expectedMessage, errObj.Message)
+			t.Errorf("%d\twrong error message. expected=%q, got=%q", i, tt.expectedMessage, errObj.Message)
 		}
 	}
 }
